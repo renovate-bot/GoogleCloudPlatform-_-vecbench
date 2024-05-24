@@ -1,0 +1,11 @@
+{% set total_time = datetime_diff(df, 'elapsed') -%}
+{% set total_queries = sum_max_group_column(df, 'searchcount', 'worker_number') -%}
+====================================================================================================================
+QPS and Latency for workload: {{ unique_column(df, 'tool')[0] }} Type: {{ unique_column(df, 'benchtype')[0] }}
+====================================================================================================================
+{% include 'benchmarkconfig_csv.j2' %}
+Benchmark results
+--------------------------------------------------------------------------------------------------------------------
+Store Type,Number of Workers,Queries,Total Time,QPS,Dimensions,50th Percentile,95th Percentile,99th Percentile,999th Percentile
+{{ unique_column(df, 'type')[0] }},{{ max_column(df, 'worker_number') +1 }},{{total_queries}},{{total_time}},{{total_queries/total_time}},{{ unique_column(df, 'dimensions')[0] }},{{quantile_field_column(df, 'elapsed', 0.50)}},{{quantile_field_column(df, 'elapsed', 0.95)}},{{quantile_field_column(df, 'elapsed', 0.99)}},{{quantile_field_column(df, 'elapsed', 0.999)}}
+====================================================================================================================

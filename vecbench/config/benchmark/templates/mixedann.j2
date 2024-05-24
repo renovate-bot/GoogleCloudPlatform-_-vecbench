@@ -1,0 +1,67 @@
+{% set read_total_time = datetime_diff(df, 'read_elapsed') -%}
+{% set read_total_queries = sum_max_group_column(df, 'readoperationcount', 'worker_number') -%}
+
+{% set insert_total_time = datetime_diff(df, 'insert_elapsed') -%}
+{% set insert_total_queries = sum_max_group_column(df, 'insertoperationcount', 'worker_number') -%}
+
+{% set update_total_time = datetime_diff(df, 'update_elapsed') -%}
+{% set update_total_queries = sum_max_group_column(df, 'updateoperationcount', 'worker_number') -%}
+
+{% set delete_total_time = datetime_diff(df, 'delete_elapsed') -%}
+{% set delete_total_queries = sum_max_group_column(df, 'deleteoperationcount', 'worker_number') -%}
+
+{% set sum_recall = sum_field_column(df, 'recall_n') -%}
+{% set sum_recall_d = sum_field_column(df, 'recall_d') -%}
+{% set sum_recall_d_n = sum_field_column(df, 'recall_d_n') -%}
+====================================================================================================================
+QPS and Latency for workload: {{ unique_column(df, 'tool')[0] }} Type: {{ unique_column(df, 'benchtype')[0] }}
+====================================================================================================================
+{% include 'benchmarkconfig.j2' -%}
+Benchmark results
+--------------------------------------------------------------------------------------------------------------------
+Store Type:{{ unique_column(df, 'type')[0] }}
+Number of Workers: {{ max_column(df, 'worker_number')|int +1 }}
+Dataset size: {{ unique_column(df, 'Dataset size')[0] }}
+Dimensions: {{ unique_column(df, 'dimensions')[0] }}
+
+Reads:
+  Queries: {{read_total_queries}}
+  Total Time: {{read_total_time}}
+  QPS: {{read_total_queries/read_total_time}}
+
+  50th Percentile: {{quantile_field_column(df, 'read_elapsed', 0.50)}}
+  95th Percentile: {{quantile_field_column(df, 'read_elapsed', 0.95)}}
+  99th Percentile: {{quantile_field_column(df, 'read_elapsed', 0.99)}}
+  999th Percentile: {{quantile_field_column(df, 'read_elapsed', 0.999)}}
+
+  Recall (Matching neighbor IDs only):{{ sum_recall / read_total_queries }}
+  Recall (Comparing neighbor distances only):{{ sum_recall_d / read_total_queries }}
+  Recall (Matching neighbors IDs and considering distance ties):{{ sum_recall_d_n / read_total_queries }}
+
+Inserts:
+  Queries: {{insert_total_queries}}
+  Total Time: {{insert_total_time}}
+  QPS: {{insert_total_queries/insert_total_time}}
+  50th Percentile: {{quantile_field_column(df, 'insert_elapsed', 0.50)}}
+  95th Percentile: {{quantile_field_column(df, 'insert_elapsed', 0.95)}}
+  99th Percentile: {{quantile_field_column(df, 'insert_elapsed', 0.99)}}
+  999th Percentile: {{quantile_field_column(df, 'insert_elapsed', 0.999)}}
+
+Updates:
+  Queries: {{update_total_queries}}
+  Total Time: {{update_total_time}}
+  QPS: {{update_total_queries/update_total_time}}
+  50th Percentile: {{quantile_field_column(df, 'update_elapsed', 0.50)}}
+  95th Percentile: {{quantile_field_column(df, 'update_elapsed', 0.95)}}
+  99th Percentile: {{quantile_field_column(df, 'update_elapsed', 0.99)}}
+  999th Percentile: {{quantile_field_column(df, 'update_elapsed', 0.999)}}
+
+Deletes:
+  Queries: {{delete_total_queries}}
+  Total Time: {{delete_total_time}}
+  QPS: {{delete_total_queries/delete_total_time}}
+  50th Percentile: {{quantile_field_column(df, 'delete_elapsed', 0.50)}}
+  95th Percentile: {{quantile_field_column(df, 'delete_elapsed', 0.95)}}
+  99th Percentile: {{quantile_field_column(df, 'delete_elapsed', 0.99)}}
+  999th Percentile: {{quantile_field_column(df, 'delete_elapsed', 0.999)}}
+====================================================================================================================

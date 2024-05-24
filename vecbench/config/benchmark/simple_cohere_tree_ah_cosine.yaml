@@ -1,0 +1,39 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type: workloads.basicann
+class: BasicAnnWorkload
+config:
+  search_dataset: gs://odyssey_benchmarking/datasets/cohere-10m/cohere10m-query.hdf5
+  search_key: 'query'
+  number_of_workers: 70
+  duration_in_seconds: 0
+  index_recreate: False
+  index_type: 'scann'
+  expected_sample_size: 2000000
+  enable_avq: on
+  pre_reordering_num_neighbors: 265
+  enable_pca: 'true'
+  pca_dimensionality: 256
+  index_config: (num_leaves=20000, quantizer='sq8')
+  algo: 'vector_cosine_ops'
+  num_leaves_to_search: 63
+  search_limit: 10
+  report_template: 'basicann.j2'
+  ground_truth_keys:
+    - 'distances'
+    - 'neighbors'
+  ground_truth_datasets: 
+    - gs://odyssey_benchmarking/datasets/cohere-10m/cohere10m-distances.hdf5
+    - gs://odyssey_benchmarking/datasets/cohere-10m/cohere10m-neighbors.hdf5

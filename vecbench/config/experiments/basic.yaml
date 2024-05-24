@@ -1,0 +1,99 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Basic
+description:
+  - Basic experiment
+benchmarks:
+  glove_100_angular:
+    configs:
+      - config/benchmark/simple_ann_cosine.yaml
+    overrides:
+      index_recreate: True
+      index_config: [{'lists': 1000}]
+      probes: [80]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/glove_100_angular.yaml
+
+  bigann_uint8_10M:
+    configs:
+      - config/benchmark/simple_bigann_10M_l2.yaml
+    overrides:
+      index_recreate: True
+      probes: [35]
+      index_config: [{'lists': 4000}]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  bigann_uint8_100M:
+    configs:
+      - config/benchmark/simple_bigann_100M_l2.yaml
+    overrides:
+      index_recreate: True
+      probes: [24]
+      index_config: [{'lists': 10000}]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/bigann_uint8_100M_train.yaml
+
+  bigann_uint8_1B:
+    configs:
+      - config/benchmark/simple_bigann_1B_l2.yaml
+    overrides:
+      index_recreate: True
+      probes: [41]
+      index_config: [{'lists': 32000}]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/bigann_uint8_1B_train.yaml
+
+  openai_5M_train:
+    configs:
+      - config/benchmark/simple_openai_cosine.yaml
+    overrides:
+      index_recreate: True
+      probes: [23]
+      index_config: [{'lists': 2000}]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/openai_5M_train.yaml
+
+  cohere_10M:
+    configs:
+      - config/benchmark/simple_cohere_cosine.yaml
+    overrides:
+      index_recreate: True
+      probes: [31]
+      index_config: [{'lists': 4000}]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+  laion_100M:
+    configs:
+      - config/benchmark/simple_laion_cosine.yaml
+    overrides:
+      index_recreate: True
+      probes: [22]
+      index_config: [{'lists': 10000}]
+      duration_in_seconds: 0
+    datasets:
+      - config/dataset/laion_100M_train.yaml
+
+stores:
+  - config/db/alloydb-omni.yaml
+loaders:
+  - RAYLoader

@@ -1,0 +1,46 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+Operations:
+  1:
+    type: Search
+  2:
+    type: Delete
+    start: 9900000
+    end: 10000000
+
+  3:
+    type: Search
+  4:
+    type: Insert
+    start: 9900000
+    end: 10000000
+  5:
+    type: Search
+  6:
+    type: Delete
+    start: 9900000
+    end: 10000000
+  7:
+    type: Search 
+  8:
+    type: Insert
+    start: 9900000
+    end: 10000000
+  9:
+    type: Search
+Insert_File:
+  files: [gs://odyssey_benchmarking/datasets/bigann_uint8/bigann_uint8_train_10m.hdf5]
+  key: 'train' 
+  start_id: 0

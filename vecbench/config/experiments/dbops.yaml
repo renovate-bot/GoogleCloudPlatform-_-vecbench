@@ -1,0 +1,166 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: DBOps
+description:
+  - DBOps experiment
+benchmarks:
+  bigann_single_insert:
+    configs:
+      - config/benchmark/insert_bigann_l2.yaml
+    overrides:
+      index_recreate: True
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_l2_ops'
+      probes: [35]
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  cohere_single_insert:
+    configs:
+      - config/benchmark/insert_cohere_cosine.yaml
+    overrides:
+      index_recreate: True
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_cosine_ops'
+      probes: [31]
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+  bigann_single_update:
+    configs:
+      - config/benchmark/update_bigann_l2.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_l2_ops'
+      probes: [35]
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  cohere_single_update:
+    configs:
+      - config/benchmark/update_cohere_cosine.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_cosine_ops'
+      probes: [31]
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+  bigann_single_delete:
+    configs:
+      - config/benchmark/delete_bigann_l2.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_l2_ops'
+      probes: [35]
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  cohere_single_delete:
+    configs:
+      - config/benchmark/delete_cohere_cosine.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_cosine_ops'
+      probes: [31]
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+  bigann_multi_insert:
+    configs:
+      - config/benchmark/insert_bigann_l2_multiple.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_l2_ops'
+      probes: [35]
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  cohere_multi_insert:
+    configs:
+      - config/benchmark/insert_cohere_cosine_multiple.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_cosine_ops'
+      probes: [31]
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+  bigann_multi_update:
+    configs:
+      - config/benchmark/update_bigann_l2_multiple.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_l2_ops'
+      probes: [35]
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  cohere_multi_update:
+    configs:
+      - config/benchmark/update_cohere_cosine_multiple.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_cosine_ops'
+      probes: [31]
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+  bigann_multi_delete:
+    configs:
+      - config/benchmark/delete_bigann_l2_multiple.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_l2_ops'
+      probes: [35]
+    datasets:
+      - config/dataset/bigann_uint8_10M_train.yaml
+
+  cohere_multi_delete:
+    configs:
+      - config/benchmark/delete_cohere_cosine_multiple.yaml
+    overrides:
+      index_recreate: False
+      index_type: 'ivfflat'
+      index_config: [{'lists': 4000}]
+      algo: 'vector_cosine_ops'
+      probes: [31]
+    datasets:
+      - config/dataset/cohere_10M_train.yaml
+
+stores:
+  - config/db/alloydb-omni3.yaml
+loaders:
+  - RAYLoader

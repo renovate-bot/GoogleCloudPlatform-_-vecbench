@@ -1,0 +1,14 @@
+{% set total_time = datetime_diff(df, 'elapsed') -%}
+====================================================================================================================
+QPS and Latency for workload: {{ unique_column(df, 'tool')[0] }} Type: {{ unique_column(df, 'benchtype')[0] }}
+====================================================================================================================
+{% include 'benchmarkconfig.j2' -%}
+Benchmark results
+--------------------------------------------------------------------------------------------------------------------
+Number of Workers: {{ max_column(df, 'worker_number')|int +1 }}
+Total Time: {{total_time}}
+50th Percentile: {{quantile_field_column(df, 'elapsed', 0.50)}}
+95th Percentile: {{quantile_field_column(df, 'elapsed', 0.95)}}
+99th Percentile: {{quantile_field_column(df, 'elapsed', 0.99)}}
+999th Percentile: {{quantile_field_column(df, 'elapsed', 0.999)}}
+====================================================================================================================

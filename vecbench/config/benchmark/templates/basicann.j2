@@ -1,0 +1,25 @@
+{% set total_time = datetime_diff(df, 'elapsed') -%}
+{% set total_queries = sum_max_group_column(df, 'searchcount', 'worker_number') -%}
+{% set sum_recall = sum_field_column(df, 'recall_n') -%}
+{% set sum_recall_d = sum_field_column(df, 'recall_d') -%}
+{% set sum_recall_d_n = sum_field_column(df, 'recall_d_n') -%}
+====================================================================================================================
+QPS and Latency for workload: {{ unique_column(df, 'tool')[0] }} Type: {{ unique_column(df, 'benchtype')[0] }}
+====================================================================================================================
+{% include 'benchmarkconfig.j2' %}
+Benchmark results
+--------------------------------------------------------------------------------------------------------------------
+Store Type:{{ unique_column(df, 'type')[0] }}
+Number of Workers: {{ max_column(df, 'worker_number')|int +1 }}
+Queries: {{total_queries}}
+Total Time: {{total_time}}
+QPS: {{total_queries/total_time}}
+Dimensions: {{ unique_column(df, 'dimensions')[0] }}
+50th Percentile: {{quantile_field_column(df, 'elapsed', 0.50)}}
+95th Percentile: {{quantile_field_column(df, 'elapsed', 0.95)}}
+99th Percentile: {{quantile_field_column(df, 'elapsed', 0.99)}}
+999th Percentile: {{quantile_field_column(df, 'elapsed', 0.999)}}
+Recall (Matching neighbor IDs only):{{ sum_recall / total_queries }}
+Recall (Comparing neighbor distances only):{{ sum_recall_d / total_queries }}
+Recall (Matching neighbors IDs and considering distance ties):{{ sum_recall_d_n / total_queries }}
+====================================================================================================================
